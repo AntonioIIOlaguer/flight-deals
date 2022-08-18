@@ -1,0 +1,4 @@
+.venv/
+flight_list.json
+__pycache__
+keys.txt
