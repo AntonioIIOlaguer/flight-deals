@@ -5,9 +5,9 @@ from flight_search import FlightSearch
 data_manager = DataManager()
 flight_search = FlightSearch()
 
-for destination in data_manager.destinations:
-    destination["iataCode"] = flight_search.get_destination_code(destination["city"])
+for row, destination in enumerate(data_manager.destinations, start=2):
+    iata_code = flight_search.get_destination_code(destination["city"])
+    if destination["iataCode"] != iata_code:
+        destination["iataCode"] = iata_code
+        data_manager.fill_iata(row, iata_code)
 
-data_manager.fill_iata(data_manager.destinations)
-
-print(data_manager.destinations)
