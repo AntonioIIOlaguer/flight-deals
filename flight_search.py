@@ -1,4 +1,5 @@
 import os
+from xmlrpc.client import DateTime
 import requests
 from datetime import datetime
 from flight_data import FlightData
@@ -8,7 +9,7 @@ TEQUILA_ENDPOINT = "https://tequila-api.kiwi.com"
 
 class FlightSearch:
     #This class is responsible for talking to the Flight Search API.
-    def get_destination_code(self,city):
+    def get_destination_code(self,city=str):
         query = {
             "term":city,
             "location_types":"city"
@@ -18,7 +19,7 @@ class FlightSearch:
         code = response.json()["locations"][0]["code"]
         return code
 
-    def find_flight(self, origin_code, destination_code, date_from, date_to):
+    def find_flight(self, origin_code=str, destination_code=str, date_from=DateTime, date_to=DateTime) -> FlightData:
         """Find flights based on Iata Code and date"""
         search_endpoint = f"{TEQUILA_ENDPOINT}/v2/search"
 
@@ -45,6 +46,7 @@ class FlightSearch:
             return None
         
         for index, route in enumerate(data["route"]):
+            #Finds the index of the return flight from the list of routes
             if index != 0 and route["cityFrom"] == data["cityTo"]:
                 return_flight_index = index
 
@@ -57,7 +59,9 @@ class FlightSearch:
             out_date=data["route"][0]["local_departure"].split("T")[0],
             return_date=data["route"][return_flight_index]["local_departure"].split("T")[0]
         )
+
         if len(data["route"]) > 2:
+            #Determines if the data that was passed has connecting flights and updates the .layover attribute
             flight_data.layover = [route["flyFrom"] for route in data["route"]]
             flight_data.layover.append(data["route"][-1]["flyTo"])
             print(f"{flight_data.destination_city}: ${flight_data.price} via {'-'.join(flight_data.layover)}")

@@ -10,7 +10,7 @@ RECIPIENT_NUM = os.environ.get('RECIPIENT_NUM')
 
 class NotificationManager:
     #This class is responsible for sending notifications with the deal flight details.
-    def send_sms(self, data:FlightData):
+    def send_sms(self, data:FlightData) ->None:
         """Takes a flight data then sends a SMS to your phone number"""
         if data.layover != None:
             message_content = (f"Cheap Flight Alert! ✈️ "

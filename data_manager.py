@@ -15,7 +15,7 @@ class DataManager:
         self.response_sheety.raise_for_status()
         self.destinations = self.response_sheety.json()["prices"]
 
-    def fill_iata(self, row, code):
+    def fill_iata(self, row=str, code=str) -> None:
         """Takes a row in the spreadsheet and the iataCode to fill"""
         flight_data ={
             "price":{
