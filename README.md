@@ -12,13 +12,14 @@ A Python program that monitors flight deals using Google Sheets and sends SMS al
 
 ## How it Works
 1.	Set up the spreadsheet: Create a Google Sheet with columns for city, iataCode and lowestPrice. Use Sheety to expose the sheet as a REST API and obtain a bearer token.
-2.	Environment variables: Save your Sheety token (SHEETY_TOKEN), Tequila API key (TEQUILA_KEY), Twilio account SID (TWILIO_ACCOUNT_SID), Twilio auth token (TWILIO_AUTH_TOKEN), Twilio phone number (MY_TWILIO_NUM) and recipient number (RECIPIENT_NUM) as environment variables.
-3.	Data retrieval: DataManager fetches the current list of destinations from the sheet using a GET request ￼. If any rows have missing IATA codes, FlightSearch requests the code from the Tequila API and DataManager updates the sheet via a PUT request.
-4.	Flight search: For each destination, FlightSearch.find_flight queries the Tequila search endpoint with parameters for origin, destination, date range, nights stay and currency. It handles cases where no flights are found.
-5.	Price comparison: The script compares the price of the cheapest flight with the lowestPrice column in the sheet.
-6.	Notification: If a deal is cheaper, NotificationManager.send_sms constructs a message including the route, price, dates and layover details (if any) and sends it to the recipient via Twilio.
+  ![image](https://user-images.githubusercontent.com/108564860/185837146-65bbbdba-12b5-4a11-9e48-c37eca01f458.png)
+3.	Environment variables: Save your Sheety token (SHEETY_TOKEN), Tequila API key (TEQUILA_KEY), Twilio account SID (TWILIO_ACCOUNT_SID), Twilio auth token (TWILIO_AUTH_TOKEN), Twilio phone number (MY_TWILIO_NUM) and recipient number (RECIPIENT_NUM) as environment variables.
+4.	Data retrieval: DataManager fetches the current list of destinations from the sheet using a GET request. If any rows have missing IATA codes, FlightSearch requests the code from the Tequila API and DataManager updates the sheet via a PUT request.
+5.	Flight search: For each destination, FlightSearch.find_flight queries the Tequila search endpoint with parameters for origin, destination, date range, nights stay and currency. It handles cases where no flights are found.
+6.	Price comparison: The script compares the price of the cheapest flight with the lowestPrice column in the sheet.
+7.	Notification: If a deal is cheaper, NotificationManager.send_sms constructs a message including the route, price, dates and layover details (if any) and sends it to the recipient via Twilio.
 
-![image](https://user-images.githubusercontent.com/108564860/185837146-65bbbdba-12b5-4a11-9e48-c37eca01f458.png)
+
 
 ## Setup and Usage
 1.	Clone the repository
